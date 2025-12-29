@@ -1,0 +1,79 @@
+# Pi Memorization Game
+
+A command-line Python game designed to help memorize the digits of π (pi) using a page-based, structured approach inspired by an iPad memorization app.
+
+### Motivation
+
+I enjoy memorizing π and found that the most effective strategy for me was using an iPad app that displayed digits in a very specific format: rows of 10 digits grouped into pages of 50 digits.
+
+This structure made memorization much easier by breaking a long sequence into manageable visual chunks.
+
+However, one major limitation of the app was that if I made a mistake at a high digit, for example around digit 270, I had to restart from the beginning. That meant retyping hundreds of digits just to practice a small section, which slowed down how quickly I could memorize new digits.
+
+This project solves that problem by allowing you to start after any digit you choose. This makes it possible to focus on memorizing specific ranges, such as digits 250 to 300, without redoing earlier digits you already know.
+
+### Features
+
+- Displays π digits in pages of 50 digits
+- Each page is broken into rows of 10 digits
+- Live input checking, digit by digit
+- Immediate feedback on mistakes
+- Highlights correct digits on failure
+- Tracks total correct digits for the current session
+- Saves a personal best score between runs
+- Allows starting after any digit for targeted practice
+
+### How It Works
+
+- The digits of π are stored as a single continuous string
+- The game displays progress within the current 50 digit page
+- You enter digits from memory
+- Each correct digit increases your session score
+- If you make a mistake, the game shows:
+  - The digit where the mistake occurred
+  - The correct digit
+  - The full 50 digit page with correct digits highlighted
+
+### Starting at Any Digit
+
+When prompted: "Start after which digit?"
+
+- Enter `0` to start from the beginning
+- Enter any other number to start practicing after that digit
+- This makes it easy to isolate and practice specific sections of π
+
+### Running the Program
+
+Make sure you have Python 3 installed.
+
+python pi_game.py
+
+Statistics are saved automatically in a file called `pi_stats.json`.
+
+### Data Storage and Persistence
+
+Basic game statistics are stored locally using a JSON file so progress is preserved between runs.
+
+The file `pi_stats.json` is created automatically and stores the personal best score. An example of the stored data is shown below:
+
+```json
+{
+  "personal_best": 132
+}
+
+```
+
+This allows the game to track long-term progress without requiring any external dependencies or databases.
+
+### Purpose
+
+This project is intentionally simple and focused on efficiency. It is meant to support memorization rather than provide a complex interface.
+
+Being able to jump directly to the digits I am working on allows me to practice my (slightly useless) hobby more effectively and avoid unnecessary repetition.
+
+### Possible Improvements
+
+- Automatically resume from personal best
+- Timing and speed statistics
+- Section-based practice modes
+- Accuracy tracking across attempts
