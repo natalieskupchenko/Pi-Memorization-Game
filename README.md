@@ -56,7 +56,7 @@ Basic game statistics are stored locally using a JSON file so progress is preser
 
 The file `pi_stats.json` is created automatically and stores the personal best score. An example of the stored data is shown below:
 
-```
+```json
 {
   "personal_best": 132
 }
