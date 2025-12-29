@@ -2,6 +2,8 @@
 
 A command-line Python game designed to help memorize the digits of π (pi) using a page-based, structured approach inspired by an iPad memorization app.
 
+**Fun fact:** My record as of December 29th 2025 is 278 digits! I noticed a major increase in the speed at which I could memorize digits - after practicing using this game, my record increased by about 100 digits in a day. 
+
 ### Motivation
 
 I enjoy memorizing π and found that the most effective strategy for me was using an iPad app that displayed digits in a very specific format: rows of 10 digits grouped into pages of 50 digits.
