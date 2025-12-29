@@ -1,3 +1,6 @@
+import json
+import os 
+
 pi_pages = [
     "31415926535897932384626433832795028841971693993751",
     "05820974944592307816406286208998628034825342117067",
@@ -13,35 +16,39 @@ pi_pages = [
 
 PI = "".join(pi_pages)
 
-# Displays correctly entered digits 
-def display_page_progress(page_start, correct_upto):
-    print("\nEnter Pi Digits Below:") #header
+def load_stats():
+    """Load statistics from file if it exists, otherwise return defaults"""
+    if os.path.exists("pi_stats.json"):
+        with open("pi_stats.json", 'r') as f:
+            return json.load(f)
+    return {"personal_best": 0}
+    
+def save_stats(stats):
+    """Save statistics to file"""
+    with open("pi_stats.json", 'w') as f:
+        json.dump(stats, f, indent=2)  
 
-    # digits already known on this page 
+def display_page_progress(page_start, correct_upto):
+    print("\nEnter Pi Digits Below:")
+
     known = PI[page_start:min(correct_upto, page_start + 50)]
 
-    # prints full rows (of 10 digits)
     for i in range(0, len(known) // 10 * 10, 10):
         print(known[i:i+10])
 
-    # prints partial row 
     remainder = len(known) % 10
     if remainder != 0:
-        print(known[-remainder:] + "-" * (10 - remainder)) # prints remaining digits
+        print(known[-remainder:] + "-" * (10 - remainder))
     else:
         print("----------") 
 
-# bold text to represent correct digits
 BOLD = "\033[1m" 
 RESET = "\033[0m"
 
-# shows full page of 50 digits after mistake 
 def print_full_page(page_start, correct_upto):
     print("\nCorrect full page:")
-    # loops through rows of 10 
     for i in range(page_start, page_start + 50, 10):
         row = ""
-        # bolds correct digits
         for j in range(i, i + 10):
             if j < correct_upto:
                 row += BOLD + PI[j] + RESET
@@ -49,13 +56,12 @@ def print_full_page(page_start, correct_upto):
                 row += PI[j]
         print(row)
 
-
-# runs game 
 def play_game(start_index):
     current_index = start_index
+    session_correct = 0
 
     while current_index < len(PI):
-        page_start = (current_index // 50) * 50 # determines current page
+        page_start = (current_index // 50) * 50
         page_end = page_start + 50  
 
         print(f"\nCurrent digit: {current_index}")
@@ -68,14 +74,12 @@ def play_game(start_index):
             print("Enter digits only.")
             continue
 
-        for i, digit in enumerate(guess): # allows for input of more than 1 digit
+        for i, digit in enumerate(guess):
             if current_index >= len(PI):
-                return current_index
+                return current_index, session_correct
 
             correct_digit = PI[current_index]
 
-            # game stops if wrong, and shows digit failed at, shows correct digit,
-            # and prints full page with bold highlighting
             if digit != correct_digit: 
                 failed_digit_number = current_index + 1
 
@@ -84,31 +88,37 @@ def play_game(start_index):
                 print(f"Correct digit was: {correct_digit}")
 
                 print_full_page(page_start, current_index)
-                return current_index    
+                return current_index, session_correct 
 
-            current_index += 1  # uf correct - move forward 1 digit at a time
+            current_index += 1
+            session_correct += 1
+            print(f"Session correct: {session_correct}", end="\r")
 
-    return current_index
-
-
+    return current_index, session_correct
 
 def main():
-    start_digit = int(input("Start at which digit? "))
+    stats = load_stats() 
+    
+    start_digit = int(input("\nStart after which digit? "))
 
     if start_digit < 0 or start_digit > len(PI):
         print("Invalid starting digit.")
         return
 
-    # user knows everything up to and including start_digit
     start_index = start_digit
+    final_index, session_correct = play_game(start_index)
 
-    final_index = play_game(start_index)
-
-    print("\n Game over!")
+    print("\nGame over!")
     print(f"You reached digit {final_index}")
-    print(f"Total digits correct this session: {final_index - start_digit}")
+    print(f"Total digits correct this session: {session_correct}")
+    
+    if session_correct > stats["personal_best"]:
+        stats["personal_best"] = session_correct
+        print("\nNEW PERSONAL BEST!")
 
-
+    save_stats(stats)
+    
+    print(f"Personal best: {stats['personal_best']} total correct digits")
     
 if __name__ == "__main__":
     main()
