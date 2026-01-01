@@ -1,6 +1,15 @@
 # Pi Memorization Game
+## Overview
+A Python command-line application designed to support efficient memorization of π by allowing targeted practice from arbitrary digit positions. The program provides real-time input validation, structured digit grouping, and persistent performance tracking.
 
-A command-line Python game designed to help memorize the digits of π (pi) using a page-based, structured approach inspired by an iPad memorization app.
+Built to solve a specific usability gap in existing memorization tools: the inability to practice only difficult sections without restarting from the beginning, while also maintaining key memorization strategies like grouping digits by rows of 10.  
+
+## Technical Highlights
+- Python CLI application with real-time digit-by-digit validation
+- Structured pagination (rows of 10, pages of 50 digits)
+- Arbitrary starting index for targeted practice
+- Persistent personal-best tracking using JSON
+- Clear separation of game logic and I/O
 
 **Fun fact:** My record as of December 29th 2025 is 278 digits! I noticed a major increase in the speed at which I could memorize digits - after practicing using this game, my record increased by about 100 digits in a day. 
 
